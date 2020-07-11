@@ -32,4 +32,4 @@ class Metrics(db.Model):
     direction = db.Column(db.Integer, unique=False, nullable=True)
 
     def __repr__(self):
-        return f"Metrics('{self.id}', '{self.ticker}', '{self.name}')"
+        return f"Metrics('{self.id}', '{self.ticker}')"
