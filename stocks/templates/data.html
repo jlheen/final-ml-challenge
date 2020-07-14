@@ -14,10 +14,10 @@
   <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
   <!-- <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"> -->
 
-<!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
-<link href="../static/css/bootstrap.min.css" rel="stylesheet">
-<!-- <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"> -->
-<!-- <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"> -->
+  <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+  <!-- <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"> -->
+  <!-- <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"> -->
 
 
   <!-- Custom styles for this template -->
@@ -37,7 +37,8 @@
     <div class="container">
       <a class="navbar-brand" href="index2.html">Magic Stock Model</a>
       <!-- <a class="nav-link" href="/index">Home</a> -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -52,77 +53,133 @@
           </li>
           <li class="nav-item active">
             <a class="nav-link" href="data.html">The Data
-                <!-- <a class="nav-link" href="/team">Home</a> -->
-                <span class="sr-only">(current)</span>
+              <!-- <a class="nav-link" href="/team">Home</a> -->
+              <span class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="team.html">The Team</a>
-                <!-- <a class="nav-link" href="/team">Home</a> -->
+            <!-- <a class="nav-link" href="/team">Home</a> -->
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
-<!-- Page Content -->
-<div class="container">
-<!-- Image -->
+  <!-- Page Content -->
+  <div class="container">
+    <!-- Image -->
     <div class="row">
-        <div class="col-md-3">
+      <div class="col-sm-3">
         <img class="img-fluid rounded mb-4" src="../static/img/04.jpg" alt="">
         <!-- <img class="img-fluid" src="{{ url_for('static', filename='img/01.jpg') }}"> -->
+      </div>
     </div>
 
-
     <!-- Reference code -- to be deleted -->
-<!-- 
+    <!-- 
     <div class="container">
       <div class="row">
         <div class="col"> -->
-          <!-- Rendering the style=height of the map is required for it to display correctly -->
-          <!-- <div id="map" style="height:400px;"></div>
+    <!-- Rendering the style=height of the map is required for it to display correctly -->
+    <!-- <div id="map" style="height:400px;"></div>
         </div>
       </div>
     </div> -->
 
-  <!-- <div class="row">
+    <!-- <div class="row">
     <div id="plot"></div>
     <script type="text/javascript" src="static/js/config.js"></script>
   <script type="text/javascript" src="static/js/plots.js"></script> -->
 
 
-<!-- <div id="map"></div>
+    <!-- <div id="map"></div>
   <script type="text/javascript" src="static/js/config.js"></script>
   <script type="text/javascript" src="static/js/logic.js"></script> -->
 
-  <form class="form-inline">
+
+    <!-- ******** Type-in Ticker option ******** -->
+    <!-- commented out lines 103-105, 109-110, 113-114 -->
+
+    <!-- <form class="form-inline">
     <div class="form-group">
-      <label for="stockInput">Stock</label>
-      <!-- input is a signifier that we're taking information from the user -->
-      <!-- placeholder = what the user will see when they see the empty box
+      <label for="stockInput">Stock</label> -->
+    <!-- input is a signifier that we're taking information from the user -->
+    <!-- placeholder = what the user will see when they see the empty box
       gives direction for what the user's input needs to be -->
-      <input type="text" class="form-control" id="stockInput" placeholder="Enter a stock">
-    </div>
+    <!-- <input type="text" class="form-control" id="stockInput" placeholder="Enter a stock">
+    </div> -->
     <!-- can change the way the buttons look using type and class 
     if there were numerous buttons, would be better to style these using css -->
-    <button id="submit" type="submit" class="btn btn-default">Plot Stock</button>
-  </form>
+    <!-- <button id="submit" type="submit" class="btn btn-default">Plot Stock</button>
+  </form> -->
 
-  <div id="plot"></div>
-  <!-- make sure BEFORE the plots.js -- order matters -->
-  <!-- <script src="config.js"></script> -->
-  <!-- src="{{ url_for('static', filename='js/config.js') }}"> -->
-  <script src="../static/js/plots.js"></script>
-  <!-- src="{{ url_for('static', filename='js/logic.js) }}'" -->
 
-<!-- option of CORS proxy explained here
-https://stackoverflow.com/questions/43262121/trying-to-use-fetch-and-pass-in-mode-no-cors/43268098 -->
+    <!-- Dropdown -->
+    <!-- code source: https://www.codebyamir.com/blog/populate-a-select-dropdown-list-with-json -->
+    <div class="row">
+      <div class="col-md-3">
+        <select id="locality-dropdown" name="locality">
+        </select>
+        <option value=""></option>
+      </div>
+    </div>
+
   
-</div>
+    <div class="row">
+      <!-- Moving Averages checkbox -->
+      <div class="col-md-3">
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="sma">
+          <label class="form-check-label" for="sma">Moving Averages</label>
+        </div>
+      </div>
+      <!-- Relative Strength Index -->
+      <div class="col-md-3">
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="rsi">
+          <label class="form-check-label" for="rsi">Relative Strength Index</label>
+        </div>
+      </div>
+      <!-- Dividends -->
+      <div class="col-md-3">
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="dv">
+          <label class="form-check-label" for="dv">Dividends</label>
+        </div>
+      </div>
+      <!-- High Prices -->
+      <div class="col-md-3">
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="high">
+          <label class="form-check-label" for="high">High Prices</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plot -->
+    <div class="row">
+      <div class="col-xl">
+        <div id="plot"></div>
+        <!-- make sure BEFORE the plots.js -- order matters -->
+        <script src="../static/js/plots.js"></script>
+        <!-- src="{{ url_for('static', filename='js/logic.js) }}'" -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Update plot button -->
+    <div class="row">
+      <div class="col-md-3">
+        <button type="button" id="updatePlot" class="btn btn-secondary btn-sm">Update Plot</button>
+      </div>
+    </div>
 
 
-</div>
+
+
+  </div>
+
 
 
   <!-- Footer -->
@@ -130,16 +187,10 @@ https://stackoverflow.com/questions/43262121/trying-to-use-fetch-and-pass-in-mod
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; Jade, Tim, & Jodi</p>
     </div>
-    <!-- /.container -->
   </footer>
 
   <!-- Bootstrap core JavaScript -->
-  <!-- <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-
-  <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
   <script src="../static/js/jquery.min.js"></script>
-  <!-- <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
   <script src="../static/js/bootstrap.bundle.min.js"></script>
 
 
