@@ -1,3 +1,13 @@
+// ****************************
+// To do:
+// 1.  clear data from previous input to create new plot
+// 2.  set a condition for ending the dropdown menu loop
+
+// DONE -- incorporate dropdown menu
+
+
+
+
 /**
  * Helper function to select stock data
  * Returns an array of values
@@ -11,93 +21,196 @@
  * index 5 - Volume
  */
 
-// create a function for user input ("stock" ticker name)
+// Function for dropdown menu selection
+// code source = https://www.codebyamir.com/blog/populate-a-select-dropdown-list-with-json
 
-function handleSubmit(){
-    d3.event.preventDefault();
-    // both (.node) & (.property) of these options work
-    // more nuanced reasoning (perhaps?) for why you might choose on over the other
-    var stock = d3.select("#stockInput").node().value;
-    // var stock = d3.select("#stockInput").property("value");
-    console.log(stock);
-    d3.select("#stockInput").node().value = "";
-    buildPlot(stock);
-  }
-  
-  
-  // create event for the button select
-  // this is essential - if this is forgotten, the whole page won't run because it will not take the user input 
-  d3.select("#submit").on("click", handleSubmit);
-  
-  
-  function buildPlot(stockInput) {
-    // var apiKey = "QCEno9eF3yUzZMLzkHYx";
-    var url = `http://magic-stocks.herokuapp.com/api/v1/metrics`;
-  
-  // still within the buildPlot function
-  // -- since the user will choose a stock 
-  // and it will build a plot based off of that
-  
-  // starting a nested function
-  // "data" is the entire JSON response to the API call
-  // (name, stock, startDate) are found w/in the json 
-    d3.json(url).then(function(data) {
-      // Grab values from the response json object to build the plots
-      // create a variable for the function input ("data") & the dataset itself ("dataset") 
-      // var ds = data.dataset
-    //   var name = data.dataset.name;
-    //   var stockTick = data.ticker;
+let dropdown = document.getElementById('locality-dropdown');
+dropdown.length = 0;
 
-    //   **********************************
+let defaultOption = document.createElement('option');
+defaultOption.text = 'Choose Stock Ticker';
 
-    //   var startDate = data.dataset.start_date;
-    //   var endDate = data.dataset.end_date;
+dropdown.add(defaultOption);
+dropdown.selectedIndex = 0;
 
-    //   **********************************
+const url = 'https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/metrics';
 
-      // Print the names of the columns
-    //   console.log(data.dataset.column_names);
-      // Print the data for each day
-    //   console.log(data.dataset.data);
-      // Use map() to build an array of the the dates
-      // Lesson 2 we used unpack function 
-      var dates = data.map(row => row[2]);
-      // Use map() to build an array of the closing prices
-      var closingPrices = data.map(row => row[1]);
-  
-      var trace1 = {
+fetch(url)
+  .then(
+    function (stockInput) {
+      if (stockInput.status !== 200) {
+        console.warn('Looks like there was a problem. Status Code: ' +
+          stockInput.status);
+        return;
+      }
+
+      // Examine the text in the stockInput  
+      stockInput.json().then(function (data) {
+        let option;
+
+        // var distinct = []
+        const unique = [...new Set(data.map(item => item.ticker))];
+        console.log(unique)
+
+        for (let i = 0; i < unique.length; i++) {
+          // if (data[i].ticker not in distinct) continue;
+          // distinct.push(data[i].ticker)
+          option = document.createElement('option');
+          option.text = unique[i];
+          // could add in the name here if incorporated into json 
+          // or another way to do it?
+          // option.value = data[i].abbreviation;
+          dropdown.add(option);
+        }
+      });
+    }
+  )
+  .catch(function (err) {
+    console.error('Fetch Error -', err);
+  });
+
+
+function updatePlotly() {
+  d3.event.preventDefault();
+  var stock = d3.select("#locality-dropdown").node().value;
+  console.log(stock);
+  buildPlot(stock);
+}
+
+// On ticker dropdown selection
+d3.selectAll("#locality-dropdown").on("change", updatePlotly);
+
+// Call updatePlotly() when a change takes place to the DOM
+d3.selectAll("#updatePlot").on("click", updatePlotly);
+
+function buildPlot(stock) {
+
+  var url = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
+
+
+  d3.json(url).then(function (metric) {
+
+    // Checkbox (CB) values
+    var smaCB = d3.select("#sma");
+    var rsiCB = d3.select("#rsi");
+    var dvCB = d3.select("#dv");
+    var highCB = d3.select("#high");
+
+
+    var dates = metric.map(record => record['date']);
+    var closingPrices = metric.map(record => record['close']);
+
+    var trace1 = {
+      type: "scatter",
+      mode: "lines",
+      name: "Closing Price",
+      x: dates,
+      y: closingPrices,
+      line: {
+        color: "#17BECF"
+      }
+    };
+
+    var data = [trace1];
+
+    // trace options for check boxes
+
+    // simple moving average
+    if (smaCB.property("checked")) {
+      var sma = metric.map(record => record['sma']);
+
+      var trace2 = {
         type: "scatter",
         mode: "lines",
-        name: name,
+        name: "Moving Average",
         x: dates,
-        y: closingPrices,
+        y: sma,
         line: {
-          color: "#17BECF"
+          color: "#32a852"
         }
       };
-  
-      var data = [trace1];
-  
-              // "title" doesn't take the initial input from the user ("stockInput") it takes the name generated by the data
-    //   var layout = {
-    //     title: `${stockTick} closing prices`,
-    //     xaxis: {
-    //       range: [startDate, endDate],
-    //       // type of data we are giving to x-axis is a date
-    //       type: "date"
-    //     },
-    //     yaxis: {
-    //       autorange: true,
-    //       type: "linear"
-    //     }
-    //   };
-  
+
+      data.push(trace2)
+
+    };
+
+    // relative strength index
+    if (rsiCB.property("checked")) {
+      var rsi = metric.map(record => record['rsi']);
+
+      var trace3 = {
+        type: "scatter",
+        mode: "lines",
+        name: "Relative Strength Index",
+        x: dates,
+        y: rsi,
+        line: {
+          color: "#9342f5"
+        }
+      };
+
+      data.push(trace3)
+    };
+
+    // dividends
+    if (dvCB.property("checked")) {
+      var dv = metric.map(record => record['dividend']);
+
+      var trace4 = {
+        type: "scatter",
+        mode: "lines",
+        name: "Dividends",
+        x: dates,
+        y: dv,
+        line: {
+          color: "#429ef5"
+        }
+      };
+
+      data.push(trace4)
+    };
+
+    // highs
+    if (highCB.property("checked")) {
+      var high = metric.map(record => record['high']);
+
+      var trace5 = {
+        type: "scatter",
+        mode: "lines",
+        name: "Highs",
+        x: dates,
+        y: high,
+        line: {
+          color: "#f58442"
+        }
+      };
+
+      data.push(trace5)
+    };
+
+
+
+    // "title" doesn't take the initial input from the user ("stockInput") it takes the name generated by the data
+    // var layout = {
+    //   title: `${stock}`,
+    //   xaxis: {
+    //     // range: [startDate, endDate],
+    //     // type of data we are giving to x-axis is a date
+    //     type: "date"
+    //   },
+    //   yaxis: {
+    //     autorange: true,
+    //     type: "linear"
+    //   }
+    // };
+
     // incorporate layout o
     //   Plotly.newPlot("plot", data, layout);
-      Plotly.newPlot("plot", data);
-  
-    });
-  }
-  
-  // Add event listener for submit button
-  
+    var chart = d3.select("#plot")
+    chart.html("")
+
+    Plotly.newPlot("plot", data);
+
+  });
+}
+
