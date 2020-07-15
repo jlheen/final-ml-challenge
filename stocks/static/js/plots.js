@@ -33,7 +33,7 @@ defaultOption.text = 'Choose Stock Ticker';
 dropdown.add(defaultOption);
 dropdown.selectedIndex = 0;
 
-const url = 'https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/metrics';
+const url ='https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/stocks'
 
 fetch(url)
   .then(
