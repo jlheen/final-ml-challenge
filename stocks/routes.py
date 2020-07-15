@@ -6,6 +6,41 @@ from stocks.models import Stocks, Metrics
 def home():
     return render_template("index.html")
 
+@app.route("/api")
+def api_docs():
+    tickers = []
+    ticker_list = Stocks.query.all()
+    for ticker in ticker_list:
+        tickers.append(ticker.ticker)
+    return render_template("api.html", tickers=tickers)
+
+@app.route("/api/v1/stocks")
+def stocks():
+    stocks = []
+    stocks_list = Stocks.query.all()
+    for stock in stocks_list:
+        stocks.append({
+            'id': stock.id,
+            'ticker': stock.ticker,
+            'name': stock.name,
+            'logo': stock.logo
+        })
+    return jsonify(stocks)
+
+@app.route("/api/v1/stocks/<ticker>")
+def ticker_stocks(ticker):
+    ticker = ticker.upper()
+    stocks = []
+    stocks_list = Stocks.query.filter_by(ticker=ticker).all()
+    for stock in stocks_list:
+        stocks.append({
+            'id': stock.id,
+            'ticker': stock.ticker,
+            'name': stock.name,
+            'logo': stock.logo
+        })
+    return jsonify(stocks)
+
 @app.route("/api/v1/metrics")
 def metrics():
     metrics = []
