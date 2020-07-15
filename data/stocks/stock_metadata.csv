@@ -1,0 +1,12 @@
+id,ticker,name,logo
+0,AAPL,Apple Inc.,aapl.png
+1,AMZN,"Amazon.com, Inc.",amzn.png
+2,AXP,American Express Company,axp.png
+3,BAC,Bank of America Corp,bac.png
+4,BK,Bank of New York Mellon Corp,bk.png
+5,JPM,JPMorgan Chase & Co.,jpm.png
+6,KO,Coca-Cola Co,ko.png
+7,MCO,Moody's Corporation,mco.png
+8,SPY,S&P 500 ETF Trust,spy.png
+9,USB,U.S. Bancorp,usb.png
+10,WFC,Wells Fargo & Co,wfc.png
