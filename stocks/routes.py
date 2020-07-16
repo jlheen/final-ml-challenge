@@ -1,6 +1,8 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify
-from stocks import app, db
+from stocks import app, db, model
 from stocks.models import Stocks, Metrics
+import numpy as np
+import pandas as pd
 
 @app.route("/")
 def home():
@@ -99,3 +101,14 @@ def ticker_metrics(ticker):
             'direction': metric.direction
         })
     return jsonify(metrics)
+
+@app.route("/api/v1/predict")
+def predict():
+    df = pd.read_sql("SELECT * FROM metrics WHERE ticker = 'AMZN'", con=db)
+    X = []
+    for i in range(60, df.shape[0]):
+        X.append(df[i-60:i, 0])
+    X = np.array(X)
+    X = np.reshape(X, (X.shape[0], X.shape[1], 1))
+    prediction = model.predict(X)
+    return (prediction)
