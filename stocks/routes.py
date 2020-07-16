@@ -64,3 +64,19 @@ def ticker_metrics(ticker):
             'direction': metric.direction
         })
     return jsonify(metrics)
+
+
+# @app.route("/model")
+# def metrics_page():
+#     """Model Page"""
+#     return render_template("model.html")
+
+# @app.route("/data")
+# def scatter_page():
+#     """Data Page"""
+#     return render_template("data.html")
+
+# @app.route("/team")
+# def us_map():
+#     """Team Page"""
+#     return render_template("team.html")
