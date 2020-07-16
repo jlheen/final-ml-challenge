@@ -12,14 +12,11 @@
 
   <!-- Bootstrap core CSS -->
   <link href="../static/css/bootstrap.min.css" rel="stylesheet">
-  <!-- <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"> -->
   <!-- <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"> -->
 
 
   <!-- Custom styles for this template -->
   <link href="../static/css/full-width-pics.css" rel="stylesheet">
-
-  <!--  -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.7/d3.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
@@ -72,6 +69,7 @@
       </div>
     </div>
 
+
     <!-- Dropdown -->
     <!-- code source: https://www.codebyamir.com/blog/populate-a-select-dropdown-list-with-json -->
     <div class="row">
@@ -118,21 +116,20 @@
     <div class="row">
       <div class="col-xl">
         <div id="plot"></div>
-        <!-- make sure BEFORE the plots.js -- order matters -->
-        <script src="../static/js/plots.js"></script>
-        <!-- src="{{ url_for('static', filename='js/logic.js) }}'" -->
         </div>
       </div>
-    </div>
-
-    <!-- Update plot button -->
-    <div class="row">
-      <div class="col-md-3">
-        <button type="button" id="updatePlot" class="btn btn-secondary btn-sm">Update Plot</button>
+    
+    
+        <!-- Update plot button -->
+        <div class="row">
+          <div class="col-sm-3">
+            <button type="button" id="updatePlot" class="btn btn-light btn-sm">Update Plot</button>
+          </div>
+        </div>
       </div>
-    </div>
 
   </div>
+
 
 
   <!-- Footer -->
@@ -145,7 +142,8 @@
   <!-- Bootstrap core JavaScript -->
   <script src="../static/js/jquery.min.js"></script>
   <script src="../static/js/bootstrap.bundle.min.js"></script>
-
+  <script src="../static/js/plots.js"></script>
+<!-- src="{{ url_for('static', filename='js/plots.js) }}'" -->
 
 </body>
 
