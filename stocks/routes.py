@@ -1,12 +1,10 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify
-from stocks import app, db, model
+from stocks import app, db
 from stocks.models import Stocks, Metrics
-import numpy as np
-import pandas as pd
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index2.html")
 
 @app.route("/api")
 def api_docs():
@@ -120,3 +118,18 @@ def ticker_metrics(ticker):
 #     X = np.reshape(X, (X.shape[0], X.shape[1], 1))
 #     prediction = model.predict(X)
 #     return print(prediction)
+
+@app.route("/model")
+def model_page():
+    """Model Page"""
+    return render_template("model.html")
+
+@app.route("/data")
+def data_page():
+    """Data Page"""
+    return render_template("data.html")
+
+@app.route("/team")
+def team_page():
+    """Team Page"""
+    return render_template("team.html")
