@@ -1,8 +1,8 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify
 from stocks import app, db, #model, scaler
 from stocks.models import Stocks, Metrics
-import pandas as pd
-import numpy as np
+# import pandas as pd
+# import numpy as np
 
 @app.route("/")
 def home():
