@@ -102,13 +102,21 @@ def ticker_metrics(ticker):
         })
     return jsonify(metrics)
 
-@app.route("/api/v1/predict")
-def predict():
-    df = pd.read_sql("SELECT * FROM metrics WHERE ticker = 'AMZN'", con=db)
-    X = []
-    for i in range(60, df.shape[0]):
-        X.append(df[i-60:i, 0])
-    X = np.array(X)
-    X = np.reshape(X, (X.shape[0], X.shape[1], 1))
-    prediction = model.predict(X)
-    return (prediction)
+# @app.route("/api/v1/predict")
+# def predict():
+#     metrics = []
+#     metrics_list = Metrics.query.filter_by(ticker='AMZN').all()
+#     for metric in metrics_list:
+#         metrics.append({
+#             'close': metric.close
+#         })
+#     df = pd.DataFrame(metrics)
+#     inputs = df[len(df)-60:].values
+#     inputs = inputs.reshape(-1,1)
+#     X = []
+#     for i in range(60, inputs.shape[0]):
+#         X.append(df[i-60:i, 0])
+#     X = np.array(X)
+#     X = np.reshape(X, (X.shape[0], X.shape[1], 1))
+#     prediction = model.predict(X)
+#     return print(prediction)
