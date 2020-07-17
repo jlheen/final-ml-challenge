@@ -5,7 +5,7 @@ from pickle import load
 import os
 
 app = Flask(__name__)
-env = 'dev'
+env = 'prod'
 
 if env == 'dev':
     from stocks import config
