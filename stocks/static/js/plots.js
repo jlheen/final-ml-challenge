@@ -7,8 +7,8 @@ defaultOption.text = 'Choose Stock Ticker';
 dropdown.add(defaultOption);
 dropdown.selectedIndex = 0;
 
-var stocks_url = 'https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/stocks'
-// var stocks_url ='http://magic-stocks.herokuapp.com/api/v1/stocks'
+// var stocks_url = 'https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/stocks'
+var stocks_url ='http://magic-stocks.herokuapp.com/api/v1/stocks'
 
 fetch(stocks_url)
     .then(
@@ -55,8 +55,8 @@ function updatePlotly() {
 function runPrediction() {
     d3.event.preventDefault();
     var stock = d3.select("#locality-dropdown").node().value;
-    var predictUrl = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/predict/${stock}`;
-    // var predictUrl = `http://magic-stocks.herokuapp.com/api/v1/predict/${stock}`;
+    // var predictUrl = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/predict/${stock}`;
+    var predictUrl = `http://magic-stocks.herokuapp.com/api/v1/predict/${stock}`;
     d3.json(predictUrl).then(function(prediction) {
         console.log(prediction);
     });
@@ -72,8 +72,8 @@ d3.select("#updatePlot").on("click", updatePlotly);
 d3.select("#predictPlot").on("click", runPrediction);
 
 function buildPlot(stock) {
-    var url = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
-    // var url = `http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
+    // var url = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
+    var url = `http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
 
     d3.json(url).then(function(metric) {
 
