@@ -1,0 +1,19 @@
+body {
+  padding-top: 100px;
+}
+
+.bg-image-full {
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
+footer a {
+  color: white;
+}
+
+footer a:hover {
+  color: darkgrey;
+}

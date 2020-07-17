@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magic Stocks - API Documentation</title>
-</head>
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="Magic Stocks API documentation.">
+      <meta name="author" content="Jade Tao, Jodi Heen, and Tim Lucas">
+      {% if title %}<title>Magic Stocks - {{ title }}</title>{% else %}<title>Magic Stocks</title>{% endif %}
+      <!-- Favicon Site Logo -->
+      <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.svg') }}">
+   </head>
 <body>
   <h2>API Documentation</h2>
+
+  <p>Welcome to the Magic Stocks Public API documentation. Our data originated from the free and open Alpha Vantage API but was stored in our own database in the format we needed for our analysis and to reduce the number of times we hit the Alpha Vantage Servers.</p>
+
 
   <p>There are several API endpoints available to choose from:</p>
   
@@ -15,13 +22,16 @@
       <li>Specific Stock Metadata - <a href="/api/v1/stocks/spy">/api/v1/stocks/spy</a></li>
       <li>All Stock Metrics for last 10 years - <a href="/api/v1/metrics">/api/v1/metrics</a></li>
       <li>Specific Stock Metrics for last 10 years - <a href="/api/v1/metrics/spy">/api/v1/metrics/spy</a></li>
+      <li>Machine Learning Prediction for next day closing price - <a href="/api/v1/predict/spy">/api/v1/metrics/spy</a></li>
   </ul>
 
-  <p>Available tickers include:</p>
+  <p>The available stocks we've stored data for include include:</p>
   <ul>
-  {% for ticker in tickers %}
-  <li>{{ ticker }}</li>
+  {% for stock in tickers %}
+  <li>{{ stock.ticker }} - {{ stock.name }}</li>
   {% endfor %}
   </ul>
+
+  <p>Return to our <a href="/" >Home</a> page.</p>
 </body>
 </html>

@@ -6,15 +6,32 @@ from stocks.models import Stocks, Metrics
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    page = 'home'
+    return render_template("index.html", page=page)
+
+@app.route("/model")
+def model_page():
+    page = 'model'
+    title = 'The Model'
+    return render_template("model.html", page=page, title=title)
+
+@app.route("/data")
+def data_page():
+    page = 'data'
+    title = 'The Data'
+    return render_template("data.html", page=page, title=title)
+
+@app.route("/team")
+def team_page():
+    page = 'team'
+    title = 'The Team'
+    return render_template("team.html", page=page, title=title)
 
 @app.route("/api")
 def api_docs():
-    tickers = []
+    title = 'API Documentation'
     ticker_list = Stocks.query.all()
-    for ticker in ticker_list:
-        tickers.append(ticker.ticker)
-    return render_template("api.html", tickers=tickers)
+    return render_template("api.html", tickers=ticker_list, title=title)
 
 @app.route("/api/v1/stocks")
 def stocks():
@@ -125,19 +142,3 @@ def predict(ticker):
     # y = predicted_price[0][0]
     next_close = {'next_close': 5000}
     return jsonify(next_close)
-
-
-@app.route("/model")
-def model_page():
-    """Model Page"""
-    return render_template("model.html")
-
-@app.route("/data")
-def data_page():
-    """Data Page"""
-    return render_template("data.html")
-
-@app.route("/team")
-def team_page():
-    """Team Page"""
-    return render_template("team.html")

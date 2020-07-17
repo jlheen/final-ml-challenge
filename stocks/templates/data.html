@@ -1,61 +1,63 @@
 {% extends "layout.html" %}
 {% block content %}
-<!-- Image -->
-<div class="row">
-   <div class="col-md-3 col-sm-12">
-      <img class="img-fluid" src="{{ url_for('static', filename='img/04.jpg') }}">
-   </div>
-   <div class="col-md-9 col-sm-12">
-    <div id="plot"></div>
- </div>
-</div>
-<!-- Dropdown -->
-<!-- code source: https://www.codebyamir.com/blog/populate-a-select-dropdown-list-with-json -->
-<div class="row">
-   <div class="form-group col-md-3 col-sm-12">
-     <p></p>
-    <select id="locality-dropdown" class="form-control">
-      <option selected>Choose...</option>
-      <option value=""></option>
-    </select>
-  </div>
-</div>
-<div class="row">
-   <!-- Moving Averages checkbox -->
-   <div class="col-md-3">
-      <div class="form-group form-check">
-         <input type="checkbox" class="form-check-input" id="sma">
-         <label class="form-check-label" for="sma">Moving Averages</label>
-      </div>
-   </div>
-   <!-- Relative Strength Index -->
-   <div class="col-md-3">
-      <div class="form-group form-check">
-         <input type="checkbox" class="form-check-input" id="rsi">
-         <label class="form-check-label" for="rsi">Relative Strength Index</label>
-      </div>
-   </div>
-   <!-- Dividends -->
-   <div class="col-md-3">
-      <div class="form-group form-check">
-         <input type="checkbox" class="form-check-input" id="dv">
-         <label class="form-check-label" for="dv">Dividends</label>
-      </div>
-   </div>
-   <!-- High Prices -->
-   <div class="col-md-3">
-      <div class="form-group form-check">
-         <input type="checkbox" class="form-check-input" id="high">
-         <label class="form-check-label" for="high">High Prices</label>
-      </div>
-   </div>
-</div>
-<!-- Update plot and prediction buttons -->
-<div class="row">
-   <div class="col-md-3">
-     <p>
-      <button type="button" id="updatePlot" class="btn btn-primary btn-sm">Update Plot</button>&nbsp;&nbsp;<button type="button" id="predictPlot" class="btn btn-secondary btn-sm">Predict</button>
-     </p>
-   </div>
-</div>
+        <div class="container">
+            <!-- Image -->
+            <div class="row">
+                <div class="col-md-3 col-sm-12">
+                    <img class="img-fluid" src="/static/img/04.jpg">
+                </div>
+                <div class="col-md-9 col-sm-12">
+                    <div id="plot"></div>
+                </div>
+            </div>
+            <!-- Dropdown -->
+            <!-- code source: https://www.codebyamir.com/blog/populate-a-select-dropdown-list-with-json -->
+            <div class="row">
+                <div class="form-group col-md-3 col-sm-12">
+                    <p></p>
+                    <select id="locality-dropdown" class="form-control">
+                        <option selected>Choose...</option>
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Moving Averages checkbox -->
+                <div class="col-md-3">
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="sma">
+                        <label class="form-check-label" for="sma">Moving Averages</label>
+                    </div>
+                </div>
+                <!-- Relative Strength Index -->
+                <div class="col-md-3">
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="rsi">
+                        <label class="form-check-label" for="rsi">Relative Strength Index</label>
+                    </div>
+                </div>
+                <!-- Dividends -->
+                <div class="col-md-3">
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="dv">
+                        <label class="form-check-label" for="dv">Dividends</label>
+                    </div>
+                </div>
+                <!-- High Prices -->
+                <div class="col-md-3">
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="high">
+                        <label class="form-check-label" for="high">High Prices</label>
+                    </div>
+                </div>
+            </div>
+            <!-- Update plot and prediction buttons -->
+            <div class="row">
+                <div class="col-md-3">
+                    <p>
+                        <button type="button" id="updatePlot" class="btn btn-primary btn-sm">Update Plot</button>&nbsp;&nbsp;<button type="button" id="predictPlot" class="btn btn-secondary btn-sm">Predict</button>
+                    </p>
+                </div>
+            </div>
+        </div>
 {% endblock content %}

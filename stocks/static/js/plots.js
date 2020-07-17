@@ -7,59 +7,59 @@ defaultOption.text = 'Choose Stock Ticker';
 dropdown.add(defaultOption);
 dropdown.selectedIndex = 0;
 
-// var stocks_url ='https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/stocks'
-var stocks_url ='http://magic-stocks.herokuapp.com/api/v1/stocks'
+var stocks_url = 'https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/stocks'
+// var stocks_url ='http://magic-stocks.herokuapp.com/api/v1/stocks'
 
 fetch(stocks_url)
-  .then(
-    function (stockInput) {
-      if (stockInput.status !== 200) {
-        console.warn('Looks like there was a problem. Status Code: ' +
-          stockInput.status);
-        return;
-      }
+    .then(
+        function(stockInput) {
+            if (stockInput.status !== 200) {
+                console.warn('Looks like there was a problem. Status Code: ' +
+                    stockInput.status);
+                return;
+            }
 
-      // Examine the text in the stockInput  
-      stockInput.json().then(function (data) {
-        let option;
+            // Examine the text in the stockInput  
+            stockInput.json().then(function(data) {
+                let option;
 
-        // var distinct = []
-        const unique = [...new Set(data.map(item => item.ticker))];
-        console.log(unique)
+                // var distinct = []
+                const unique = [...new Set(data.map(item => item.ticker))];
+                const company = [...new Set(data.map(item => item.name))];
 
-        for (let i = 0; i < unique.length; i++) {
-          // if (data[i].ticker not in distinct) continue;
-          // distinct.push(data[i].ticker)
-          option = document.createElement('option');
-          option.text = unique[i];
-          // could add in the name here if incorporated into json 
-          // or another way to do it?
-          // option.value = data[i].abbreviation;
-          dropdown.add(option);
+                for (let i = 0; i < unique.length; i++) {
+                    // if (data[i].ticker not in distinct) continue;
+                    // distinct.push(data[i].ticker)
+                    option = document.createElement('option');
+                    option.text = company[i];
+                    option.value = unique[i];
+                    // could add in the name here if incorporated into json 
+                    // or another way to do it?
+                    // option.value = data[i].abbreviation;
+                    dropdown.add(option);
+                }
+            });
         }
-      });
-    }
-  )
-  .catch(function (err) {
-    console.error('Fetch Error -', err);
-  });
+    )
+    .catch(function(err) {
+        console.error('Fetch Error -', err);
+    });
 
 
 function updatePlotly() {
-  d3.event.preventDefault();
-  var stock = d3.select("#locality-dropdown").node().value;
-  console.log(stock);
-  buildPlot(stock);
+    d3.event.preventDefault();
+    var stock = d3.select("#locality-dropdown").node().value;
+    buildPlot(stock);
 }
 
 function runPrediction() {
-  d3.event.preventDefault();
-  var stock = d3.select("#locality-dropdown").node().value;
-  // var predictUrl = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/predict/${stock}`;
-  var predictUrl = `http://magic-stocks.herokuapp.com/api/v1/predict/${stock}`;
-  d3.json(predictUrl).then(function (prediction) {
-    console.log(prediction);
-  });
+    d3.event.preventDefault();
+    var stock = d3.select("#locality-dropdown").node().value;
+    var predictUrl = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/predict/${stock}`;
+    // var predictUrl = `http://magic-stocks.herokuapp.com/api/v1/predict/${stock}`;
+    d3.json(predictUrl).then(function(prediction) {
+        console.log(prediction);
+    });
 }
 
 // On ticker dropdown selection
@@ -72,133 +72,124 @@ d3.select("#updatePlot").on("click", updatePlotly);
 d3.select("#predictPlot").on("click", runPrediction);
 
 function buildPlot(stock) {
-  // var url = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
-  var url = `http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
+    var url = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
+    // var url = `http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
+
+    d3.json(url).then(function(metric) {
+
+        // Checkbox (CB) values
+        var smaCB = d3.select("#sma");
+        var rsiCB = d3.select("#rsi");
+        var dvCB = d3.select("#dv");
+        var highCB = d3.select("#high");
 
 
-  d3.json(url).then(function (metric) {
+        var dates = metric.map(record => record['date']);
+        var closingPrices = metric.map(record => record['close']);
 
-    // Checkbox (CB) values
-    var smaCB = d3.select("#sma");
-    var rsiCB = d3.select("#rsi");
-    var dvCB = d3.select("#dv");
-    var highCB = d3.select("#high");
+        var trace1 = {
+            type: "scatter",
+            mode: "lines",
+            name: "Closing Price",
+            x: dates,
+            y: closingPrices,
+            line: {
+                color: "#17BECF"
+            }
+        };
 
+        var data = [trace1];
 
-    var dates = metric.map(record => record['date']);
-    var closingPrices = metric.map(record => record['close']);
+        // trace options for check boxes
 
-    var trace1 = {
-      type: "scatter",
-      mode: "lines",
-      name: "Closing Price",
-      x: dates,
-      y: closingPrices,
-      line: {
-        color: "#17BECF"
-      }
-    };
+        // simple moving average
+        if (smaCB.property("checked")) {
+            var sma = metric.map(record => record['sma']);
 
-    var data = [trace1];
+            var trace2 = {
+                type: "scatter",
+                mode: "lines",
+                name: "Moving Average",
+                x: dates,
+                y: sma,
+                line: {
+                    color: "#32a852"
+                }
+            };
 
-    // trace options for check boxes
+            data.push(trace2)
 
-    // simple moving average
-    if (smaCB.property("checked")) {
-      var sma = metric.map(record => record['sma']);
+        };
 
-      var trace2 = {
-        type: "scatter",
-        mode: "lines",
-        name: "Moving Average",
-        x: dates,
-        y: sma,
-        line: {
-          color: "#32a852"
-        }
-      };
+        // relative strength index
+        if (rsiCB.property("checked")) {
+            var rsi = metric.map(record => record['rsi']);
 
-      data.push(trace2)
+            var trace3 = {
+                type: "scatter",
+                mode: "lines",
+                name: "Relative Strength Index",
+                x: dates,
+                y: rsi,
+                line: {
+                    color: "#9342f5"
+                }
+            };
 
-    };
+            data.push(trace3)
+        };
 
-    // relative strength index
-    if (rsiCB.property("checked")) {
-      var rsi = metric.map(record => record['rsi']);
+        // dividends
+        if (dvCB.property("checked")) {
+            var dv = metric.map(record => record['dividend']);
 
-      var trace3 = {
-        type: "scatter",
-        mode: "lines",
-        name: "Relative Strength Index",
-        x: dates,
-        y: rsi,
-        line: {
-          color: "#9342f5"
-        }
-      };
+            var trace4 = {
+                type: "scatter",
+                mode: "lines",
+                name: "Dividends",
+                x: dates,
+                y: dv,
+                line: {
+                    color: "#429ef5"
+                }
+            };
 
-      data.push(trace3)
-    };
+            data.push(trace4)
+        };
 
-    // dividends
-    if (dvCB.property("checked")) {
-      var dv = metric.map(record => record['dividend']);
+        // highs
+        if (highCB.property("checked")) {
+            var high = metric.map(record => record['high']);
 
-      var trace4 = {
-        type: "scatter",
-        mode: "lines",
-        name: "Dividends",
-        x: dates,
-        y: dv,
-        line: {
-          color: "#429ef5"
-        }
-      };
+            var trace5 = {
+                type: "scatter",
+                mode: "lines",
+                name: "Highs",
+                x: dates,
+                y: high,
+                line: {
+                    color: "#f58442"
+                }
+            };
 
-      data.push(trace4)
-    };
+            data.push(trace5)
+        };
 
-    // highs
-    if (highCB.property("checked")) {
-      var high = metric.map(record => record['high']);
+        var layout = {
+          title: `${stock.toUpperCase()} Closing Prices`,
+          xaxis: {
+              type: "date"
+          },
+          yaxis: {
+              autorange: true,
+              type: "linear"
+          }
+        };
 
-      var trace5 = {
-        type: "scatter",
-        mode: "lines",
-        name: "Highs",
-        x: dates,
-        y: high,
-        line: {
-          color: "#f58442"
-        }
-      };
+        var chart = d3.select("#plot")
+        chart.html("")
 
-      data.push(trace5)
-    };
+        Plotly.newPlot("plot", data, layout);
 
-
-
-    // "title" doesn't take the initial input from the user ("stockInput") it takes the name generated by the data
-    // var layout = {
-    //   title: `${stock}`,
-    //   xaxis: {
-    //     // range: [startDate, endDate],
-    //     // type of data we are giving to x-axis is a date
-    //     type: "date"
-    //   },
-    //   yaxis: {
-    //     autorange: true,
-    //     type: "linear"
-    //   }
-    // };
-
-    // incorporate layout o
-    //   Plotly.newPlot("plot", data, layout);
-    var chart = d3.select("#plot")
-    chart.html("")
-
-    Plotly.newPlot("plot", data);
-
-  });
+    });
 }
-

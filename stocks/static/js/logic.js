@@ -127,6 +127,8 @@ function updatePlotly() {
             }
         };
       
+        var plot = d3.select("#stock");
+        plot.html("");
         Plotly.newPlot("stock", data, layout);
     });
 };
