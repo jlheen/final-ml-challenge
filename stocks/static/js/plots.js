@@ -78,112 +78,213 @@ function buildPlot(stock) {
     d3.json(url).then(function(metric) {
 
         // Checkbox (CB) values
-        var smaCB = d3.select("#sma");
-        var rsiCB = d3.select("#rsi");
-        var dvCB = d3.select("#dv");
+        var adjCloseCB = d3.select("#adj_close");
         var highCB = d3.select("#high");
+        var lowCB = d3.select("#low");
+        var nextCloseCB = d3.select("#next_close");
+        var openCB = d3.select("#open_amt");
+        var rocCB = d3.select("#roc");
+        var rsiCB = d3.select("#rsi");
+        var slowdCB = d3.select("#slowd");
+        var slowkCB = d3.select("#slowk");
+        var smaCB = d3.select("#sma");
+        var volumeCB = d3.select("#volume");
+        var willrCB = d3.select("#willr");
 
 
         var dates = metric.map(record => record['date']);
         var closingPrices = metric.map(record => record['close']);
 
-        var trace1 = {
+        var closeTrace = {
             type: "scatter",
             mode: "lines",
             name: "Closing Price",
             x: dates,
-            y: closingPrices,
-            line: {
-                color: "#17BECF"
-            }
+            y: closingPrices
         };
-
-        var data = [trace1];
+        var data = [closeTrace];
 
         // trace options for check boxes
+
+        // adjusted close
+        if (adjCloseCB.property("checked")) {
+            var adjClose = metric.map(record => record['adj_close']);
+
+            var adjCloseTrace = {
+                type: "scatter",
+                mode: "lines",
+                name: "Adjusted Close",
+                x: dates,
+                y: adjClose
+            };
+            data.push(adjCloseTrace)
+        };
+
+        // high
+        if (highCB.property("checked")) {
+            var high = metric.map(record => record['high']);
+
+            var highTrace = {
+                type: "scatter",
+                mode: "lines",
+                name: "Daily High",
+                x: dates,
+                y: high
+            };
+            data.push(highTrace)
+        };
+
+        // low
+        if (lowCB.property("checked")) {
+            var low = metric.map(record => record['low']);
+
+            var lowTrace = {
+                type: "scatter",
+                mode: "lines",
+                name: "Daily Low",
+                x: dates,
+                y: low
+            };
+            data.push(lowTrace)
+        };
+
+        // next close
+        if (nextCloseCB.property("checked")) {
+            var nextClose = metric.map(record => record['next_close']);
+
+            var nextCloseTrace = {
+                type: "scatter",
+                mode: "lines",
+                name: "Next Day Close",
+                x: dates,
+                y: nextClose
+            };
+            data.push(nextCloseTrace)
+        };
+
+        // open
+        if (openCB.property("checked")) {
+            var openAmt = metric.map(record => record['open_amt']);
+
+            var openTrace = {
+                type: "scatter",
+                mode: "lines",
+                name: "Daily Open",
+                x: dates,
+                y: openAmt
+            };
+            data.push(openTrace)
+        };
+
+        // roc - rate of change
+        if (rocCB.property("checked")) {
+            var roc = metric.map(record => record['roc']);
+
+            var rocTrace = {
+                type: "scatter",
+                mode: "lines",
+                name: "Rate of Change (ROC)",
+                x: dates,
+                y: roc
+            };
+            data.push(rocTrace)
+        };
+
+        // rsi - relative strength index
+        if (rsiCB.property("checked")) {
+            var rsi = metric.map(record => record['rsi']);
+
+            var rsiTrace = {
+                type: "scatter",
+                mode: "lines",
+                name: "Relative Strength Index (RSI)",
+                x: dates,
+                y: rsi
+            };
+            data.push(rsiTrace)
+        };
+
+        // slowd - stochastic oscillator
+        if (slowdCB.property("checked")) {
+            var slowd = metric.map(record => record['slowd']);
+
+            var slowdTrace = {
+                type: "scatter",
+                mode: "lines",
+                name: "Stochastic Oscillator (slowd)",
+                x: dates,
+                y: slowd
+            };
+            data.push(slowdTrace)
+        };
+
+        // slowk - stochastic oscillator
+        if (slowkCB.property("checked")) {
+            var slowk = metric.map(record => record['slowk']);
+
+            var slowkTrace = {
+                type: "scatter",
+                mode: "lines",
+                name: "Stochastic Oscillator (slowk)",
+                x: dates,
+                y: slowk
+            };
+            data.push(slowkTrace)
+        };
 
         // simple moving average
         if (smaCB.property("checked")) {
             var sma = metric.map(record => record['sma']);
 
-            var trace2 = {
+            var smaTrace = {
                 type: "scatter",
                 mode: "lines",
-                name: "Moving Average",
+                name: "Simple Moving Average",
                 x: dates,
-                y: sma,
-                line: {
-                    color: "#32a852"
-                }
+                y: sma
             };
-
-            data.push(trace2)
-
+            data.push(smaTrace)
         };
 
-        // relative strength index
-        if (rsiCB.property("checked")) {
-            var rsi = metric.map(record => record['rsi']);
+        // volume
+        if (volumeCB.property("checked")) {
+            var volume = metric.map(record => record['volume']);
 
-            var trace3 = {
+            var volumeTrace = {
                 type: "scatter",
                 mode: "lines",
-                name: "Relative Strength Index",
+                name: "Daily Volume",
                 x: dates,
-                y: rsi,
-                line: {
-                    color: "#9342f5"
-                }
+                y: volume
             };
 
-            data.push(trace3)
+            data.push(volumeTrace)
         };
 
-        // dividends
-        if (dvCB.property("checked")) {
-            var dv = metric.map(record => record['dividend']);
+        // willr - Williams %R
+        if (willrCB.property("checked")) {
+            var willr = metric.map(record => record['willr']);
 
-            var trace4 = {
+            var willrTrace = {
                 type: "scatter",
                 mode: "lines",
-                name: "Dividends",
+                name: "Williams %R (WILLR)",
                 x: dates,
-                y: dv,
-                line: {
-                    color: "#429ef5"
-                }
+                y: willr
             };
 
-            data.push(trace4)
-        };
-
-        // highs
-        if (highCB.property("checked")) {
-            var high = metric.map(record => record['high']);
-
-            var trace5 = {
-                type: "scatter",
-                mode: "lines",
-                name: "Highs",
-                x: dates,
-                y: high,
-                line: {
-                    color: "#f58442"
-                }
-            };
-
-            data.push(trace5)
+            data.push(willrTrace)
         };
 
         var layout = {
-          title: `${stock.toUpperCase()} Closing Prices`,
-          xaxis: {
-              type: "date"
-          },
-          yaxis: {
-              autorange: true,
-              type: "linear"
-          }
+            title: `${stock.toUpperCase()} Closing Prices`,
+            xaxis: {
+                type: "date"
+            },
+            yaxis: {
+                autorange: true,
+                type: "linear"
+            }
         };
 
         var chart = d3.select("#plot")

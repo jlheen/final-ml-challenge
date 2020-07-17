@@ -1,13 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
         <div class="container">
+            <h2>Analyzing the Stocks</h2>
             <!-- Image -->
             <div class="row">
                 <div class="col-md-3 col-sm-12">
                     <img class="img-fluid" src="/static/img/04.jpg">
+                    <h6>Want to know more about the <a href="https://en.wikipedia.org/wiki/Charging_Bull" target="_blank">Charging Bull</a> statue?</h6>
                 </div>
                 <div class="col-md-9 col-sm-12">
-                    <div id="plot"></div>
+                    <div id="plot"><img src="{{ url_for('static', filename='img/plot.png') }}"/></div>
                 </div>
             </div>
             <!-- Dropdown -->
@@ -22,35 +24,95 @@
                 </div>
             </div>
             <div class="row">
-                <!-- Moving Averages checkbox -->
+                <!-- Open checkbox -->
                 <div class="col-md-3">
                     <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" id="sma">
-                        <label class="form-check-label" for="sma">Moving Averages</label>
+                        <input type="checkbox" class="form-check-input" id="open_amt">
+                        <label class="form-check-label" for="open_amt">Open</label>
                     </div>
                 </div>
-                <!-- Relative Strength Index -->
-                <div class="col-md-3">
-                    <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" id="rsi">
-                        <label class="form-check-label" for="rsi">Relative Strength Index</label>
-                    </div>
-                </div>
-                <!-- Dividends -->
-                <div class="col-md-3">
-                    <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" id="dv">
-                        <label class="form-check-label" for="dv">Dividends</label>
-                    </div>
-                </div>
-                <!-- High Prices -->
+                <!-- High Index -->
                 <div class="col-md-3">
                     <div class="form-group form-check">
                         <input type="checkbox" class="form-check-input" id="high">
-                        <label class="form-check-label" for="high">High Prices</label>
+                        <label class="form-check-label" for="high">Daily High</label>
+                    </div>
+                </div>
+                <!-- Low -->
+                <div class="col-md-3">
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="low">
+                        <label class="form-check-label" for="low">Daily Low</label>
+                    </div>
+                </div>
+                <!-- Adjusted Close -->
+                <div class="col-md-3">
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="adj_close">
+                        <label class="form-check-label" for="adj_close">Adjusted Close</label>
                     </div>
                 </div>
             </div>
+            <div class="row">
+               <!-- Relative Strength Index -->
+               <div class="col-md-3">
+                  <div class="form-group form-check">
+                      <input type="checkbox" class="form-check-input" id="rsi">
+                      <label class="form-check-label" for="rsi">Relative Strength Index (RSI)</label>
+                  </div>
+              </div>
+               <!-- Simple Moving Averages checkbox -->
+               <div class="col-md-3">
+                   <div class="form-group form-check">
+                       <input type="checkbox" class="form-check-input" id="sma">
+                       <label class="form-check-label" for="sma">Simple Moving Averages (SMA)</label>
+                   </div>
+               </div>
+               <!-- Volume -->
+               <div class="col-md-3">
+                   <div class="form-group form-check">
+                       <input type="checkbox" class="form-check-input" id="volume">
+                       <label class="form-check-label" for="volume">Daily Volume</label>
+                   </div>
+               </div>
+               <!-- Next Day Close -->
+               <div class="col-md-3">
+                   <div class="form-group form-check">
+                       <input type="checkbox" class="form-check-input" id="next_close">
+                       <label class="form-check-label" for="next_close">Next Day Close</label>
+                   </div>
+               </div>
+           </div>
+           <div class="row">
+            <!-- Rate of Change -->
+            <div class="col-md-3">
+               <div class="form-group form-check">
+                   <input type="checkbox" class="form-check-input" id="roc">
+                   <label class="form-check-label" for="roc">Rate of Change (ROC)</label>
+               </div>
+           </div>
+            <!-- Slow D -->
+            <div class="col-md-3">
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="slowd">
+                    <label class="form-check-label" for="slowd">STOCH (slowd)</label>
+                </div>
+            </div>
+            <!-- Slow K -->
+            <div class="col-md-3">
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="slowk">
+                    <label class="form-check-label" for="slowk">STOCH (slowk)</label>
+                </div>
+            </div>
+            <!-- Willims %R -->
+            <div class="col-md-3">
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="willr">
+                    <label class="form-check-label" for="willr">Williams %R (WILLR)</label>
+                </div>
+            </div>
+        </div>
             <!-- Update plot and prediction buttons -->
             <div class="row">
                 <div class="col-md-3">
