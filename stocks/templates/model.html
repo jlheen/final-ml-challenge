@@ -1,8 +1,23 @@
 {% extends "layout.html" %}
 {% block content %}
     <div class="row">
-
-        <!-- insert Plotly user interface and instructions -->
-
+        <div class="col-md-12">
+            <div class="card" style="width: 100%;">
+                <img src="{{ url_for('static', filename='img/aapl_plot.png') }}" class="card-img-top" alt="AAPL Prediction Plot"/>
+                <div class="card-body">
+                  <h5 class="card-title"><img src="{{ url_for('static', filename='img/aapl.png') }}" width="30px" /> AAPL - Apple, Inc.</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card" style="width: 100%;">
+                <img src="{{ url_for('static', filename='img/axp_plot.png') }}" class="card-img-top" alt="AXP Prediction Plot"/>
+                <div class="card-body">
+                  <h5 class="card-title"><img src="{{ url_for('static', filename='img/axp.png') }}" width="30px"/> AXP - American Express Company</h5>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock content %}

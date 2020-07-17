@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from keras.models import model_from_json
+from pickle import load
 import os
 
 app = Flask(__name__)
@@ -24,5 +25,6 @@ loaded_model_json = json_file.read()
 json_file.close()
 model = model_from_json(loaded_model_json)
 model.load_weights("model.h5")
+scaler = load(open('scaler.pkl', 'rb'))
 
 from stocks import routes

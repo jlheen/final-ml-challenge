@@ -1,10 +1,12 @@
 from flask import render_template, url_for, flash, redirect, request, jsonify
-from stocks import app, db
+from stocks import app, db, model, scaler
 from stocks.models import Stocks, Metrics
+import pandas as pd
+import numpy as np
 
 @app.route("/")
 def home():
-    return render_template("index2.html")
+    return render_template("index.html")
 
 @app.route("/api")
 def api_docs():
@@ -100,24 +102,30 @@ def ticker_metrics(ticker):
         })
     return jsonify(metrics)
 
-# @app.route("/api/v1/predict")
-# def predict():
-#     metrics = []
-#     metrics_list = Metrics.query.filter_by(ticker='AMZN').all()
-#     for metric in metrics_list:
-#         metrics.append({
-#             'close': metric.close
-#         })
-#     df = pd.DataFrame(metrics)
-#     inputs = df[len(df)-60:].values
-#     inputs = inputs.reshape(-1,1)
-#     X = []
-#     for i in range(60, inputs.shape[0]):
-#         X.append(df[i-60:i, 0])
-#     X = np.array(X)
-#     X = np.reshape(X, (X.shape[0], X.shape[1], 1))
-#     prediction = model.predict(X)
-#     return print(prediction)
+@app.route("/api/v1/predict/<ticker>")
+def predict(ticker):
+    ticker = ticker.upper()
+    metrics = []
+    metrics_list = Metrics.query.filter_by(ticker=ticker).all()
+    for metric in metrics_list:
+        metrics.append({
+            'close': metric.close
+        })
+    df = pd.DataFrame(metrics)
+    new_dataset = pd.DataFrame(index = range(0, len(df)), columns = ['close'])
+    for i in range(0,len(df)):
+        new_dataset["close"][i] = df["close"][i]
+    X = []
+    X.append(df.values[-61:-1])
+    X = scaler.transform(X)
+    X = np.array(X)
+    X = np.reshape(X, (X.shape[0], X.shape[1], 1))
+    predicted = model(X)
+    predicted_price = scaler.inverse_transform(predicted)
+    y = predicted_price[0][0]
+    next_close = {'next_close': y}
+    return jsonify(next_close)
+
 
 @app.route("/model")
 def model_page():

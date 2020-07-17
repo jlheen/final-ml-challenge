@@ -1,29 +1,3 @@
-// ****************************
-// To do:
-// 1.  clear data from previous input to create new plot
-// 2.  set a condition for ending the dropdown menu loop
-
-// DONE -- incorporate dropdown menu
-
-
-
-
-/**
- * Helper function to select stock data
- * Returns an array of values
- * @param {array} rows
- * @param {integer} index
- * index 0 - Date
- * index 1 - Open
- * index 2 - High
- * index 3 - Low
- * index 4 - Close
- * index 5 - Volume
- */
-
-// Function for dropdown menu selection
-// code source = https://www.codebyamir.com/blog/populate-a-select-dropdown-list-with-json
-
 let dropdown = document.getElementById('locality-dropdown');
 dropdown.length = 0;
 
@@ -33,10 +7,10 @@ defaultOption.text = 'Choose Stock Ticker';
 dropdown.add(defaultOption);
 dropdown.selectedIndex = 0;
 
-// const url = 'https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/metrics';
-const url ='https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/stocks'
+// var stocks_url ='https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/stocks'
+var stocks_url ='http://magic-stocks.herokuapp.com/api/v1/stocks'
 
-fetch(url)
+fetch(stocks_url)
   .then(
     function (stockInput) {
       if (stockInput.status !== 200) {
@@ -78,15 +52,28 @@ function updatePlotly() {
   buildPlot(stock);
 }
 
+function runPrediction() {
+  d3.event.preventDefault();
+  var stock = d3.select("#locality-dropdown").node().value;
+  // var predictUrl = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/predict/${stock}`;
+  var predictUrl = `http://magic-stocks.herokuapp.com/api/v1/predict/${stock}`;
+  d3.json(predictUrl).then(function (prediction) {
+    console.log(prediction);
+  });
+}
+
 // On ticker dropdown selection
 d3.selectAll("#locality-dropdown").on("change", updatePlotly);
 
 // Call updatePlotly() when a change takes place to the DOM
 d3.select("#updatePlot").on("click", updatePlotly);
 
-function buildPlot(stock) {
+// Call updatePlotly() when a change takes place to the DOM
+d3.select("#predictPlot").on("click", runPrediction);
 
-  var url = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
+function buildPlot(stock) {
+  // var url = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
+  var url = `http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
 
 
   d3.json(url).then(function (metric) {
