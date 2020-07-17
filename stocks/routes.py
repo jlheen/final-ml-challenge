@@ -4,7 +4,7 @@ from stocks.models import Stocks, Metrics
 
 @app.route("/")
 def home():
-    return render_template("index2.html")
+    return render_template("index.html")
 
 @app.route("/api")
 def api_docs():
