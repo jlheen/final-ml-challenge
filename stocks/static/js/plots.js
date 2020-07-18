@@ -7,8 +7,8 @@ defaultOption.text = 'Choose Stock Ticker';
 dropdown.add(defaultOption);
 dropdown.selectedIndex = 0;
 
-var stocks_url = 'https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/stocks'
-// var stocks_url ='http://magic-stocks.herokuapp.com/api/v1/stocks'
+// var stocks_url = 'https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/stocks'
+var stocks_url ='http://magic-stocks.herokuapp.com/api/v1/stocks'
 
 fetch(stocks_url)
     .then(
@@ -28,14 +28,9 @@ fetch(stocks_url)
                 const company = [...new Set(data.map(item => item.name))];
 
                 for (let i = 0; i < unique.length; i++) {
-                    // if (data[i].ticker not in distinct) continue;
-                    // distinct.push(data[i].ticker)
                     option = document.createElement('option');
                     option.text = company[i];
                     option.value = unique[i];
-                    // could add in the name here if incorporated into json 
-                    // or another way to do it?
-                    // option.value = data[i].abbreviation;
                     dropdown.add(option);
                 }
             });
@@ -72,11 +67,11 @@ d3.select("#updatePlot").on("click", updatePlotly);
 // d3.select("#predictPlot").on("click", runPrediction);
 
 function buildPlot(stock) {
-    var url = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
-    // var url = `http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
+    // var url = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
+    var url = `http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
 
-    var imgurl = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/stocks/${stock}`;
-    // var imgurl = `http://magic-stocks.herokuapp.com/api/v1/stocks/${stock}`;
+    // var imgurl = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/stocks/${stock}`;
+    var imgurl = `http://magic-stocks.herokuapp.com/api/v1/stocks/${stock}`;
 
     d3.json(url).then(function(metric) {
 
