@@ -5,11 +5,12 @@
             <!-- Image -->
             <div class="row">
                 <div class="col-md-3 col-sm-12">
-                    <img class="img-fluid" src="/static/img/04.jpg">
+                    <img class="img-fluid" src="{{ url_for('static', filename='img/04.jpg') }}">
                     <h6>Want to know more about the <a href="https://en.wikipedia.org/wiki/Charging_Bull" target="_blank">Charging Bull</a> statue?</h6>
                 </div>
                 <div class="col-md-9 col-sm-12">
                     <div id="plot"><img src="{{ url_for('static', filename='img/plot.png') }}"/></div>
+                    <div id="stock"></div>
                 </div>
             </div>
             <!-- Dropdown -->
@@ -117,7 +118,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <p>
-                        <button type="button" id="updatePlot" class="btn btn-primary btn-sm">Update Plot</button>&nbsp;&nbsp;<button type="button" id="predictPlot" class="btn btn-secondary btn-sm">Predict</button>
+                        <button type="button" id="updatePlot" class="btn btn-primary btn-sm">Update Plot</button>&nbsp;&nbsp;<a href="/model"><button type="button" id="predictPlot" class="btn btn-secondary btn-sm">Predict</button></a>
                     </p>
                 </div>
             </div>

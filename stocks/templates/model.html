@@ -1,26 +1,86 @@
 {% extends "layout.html" %}
 {% block content %}
         <div class="container">
-            <h5>What's in a model?</h5>
+            <h2>What's in a model?</h2>
+            <p>There were two types of predictions we set out to make including the future stock closing price as well as the future direction of the stock (up or down).</p>
+            <p>The two main factors we considered when trying to create our machine learning model were both the type of model and which features we could use to create an accurate prediction. The specific model that we chose to use for our future closing price prediction was a <strong>Long short-term memory (LSTM) recurrent neural network (RNN)</strong>. We arrived at this decision after several failed attempts with other models but the accuracy of our tests indicated this as the best solution.</p>
+            <p>When it came to predicting the overall trend of the data (up or down), we found a few other models that worked with varying levels of accuracy. Those models include:</p>
+            <ul>
+                <li>Support Vector Machines (SVM)</li>
+                <li>Multilayer Perceptrons (MLP)</li>
+                <li>Deep Artificial Neural Networks (ANN)</li>
+            </ul>
+            <p>The technical analysis of features we considered for our stock prediction models included:</p>
+            <ul>
+                <li>Daily Stock Prices: date, open, close, high, low, and volume</li>
+                <li>Technical Indicators: sma, rsi, slowd, slowk, roc, willr, std, mom, adx, obv, atr, cci, macd, trix</li>
+                <li>Comparisons to S&P 500 (SPY)</li>
+            </ul>
+            <p>The dataset we collected and used came from the Alpha Vantage Public API. We originally started with data from the Quandi.com API; however, we found the Alpha Vantage API included more recent data points (up to the current date), a longer history of data points, and many more technical indicators. We settled on collecting 10 years worth of daily data points and technical indicators for the S&P 500 (SPY) and another 10 of our favorite stocks.</p>
+            <p>Here are some examples of our closing stock price future predictions. When building our model we decided to use about 1200 daily data points to fit and train our model, then passed the rest of our data through to test the accuracy. In the visuals below you will see this training data represented by the blue line, the predicted prices represented by the orange line, and the actual testing data represented by the green line.</p>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card" style="width: 100%;">
-                        <img src="/static/img/aapl_plot.png" class="card-img-top" alt="AAPL Prediction Plot"/>
+                        <img src="{{ url_for('static', filename='img/aapl_plot.png') }}" class="card-img-top" alt="AAPL Prediction Plot"/>
                         <div class="card-body">
-                            <h5 class="card-title"><img src="/static/img/aapl.png" width="30px" /> AAPL - Apple, Inc.</h5>
+                            <h5 class="card-title text-center"><img src="/static/img/aapl.png" width="30px" /> AAPL - Apple, Inc.</h5>
                         </div>
                     </div>
                 </div>
             </div>
+            <p></p>
             <div class="row">
                 <div class="col-md-12">
                     <div class="card" style="width: 100%;">
-                        <img src="/static/img/axp_plot.png" class="card-img-top" alt="AXP Prediction Plot"/>
+                        <img src="{{ url_for('static', filename='img/axp_plot.png') }}" class="card-img-top" alt="AXP Prediction Plot"/>
                         <div class="card-body">
-                            <h5 class="card-title"><img src="/static/img/axp.png" width="30px"/> AXP - American Express Company</h5>
+                            <h5 class="card-title text-center"><img src="/static/img/axp.png" width="30px"/> AXP - American Express Company</h5>
                         </div>
-                    </div>
+                    </div> 
                 </div>
             </div>
-        </div>     
+            <p></p>
+            <h5>Prediction Accuracy for Direction (up or down) for ANN, MLP, SVM</h5>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Next 3-day</th>
+                        <th>Next 7-day</th>
+                        <th>Next 10-day</th>
+                        <th>Next 14-day</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>AAPL</td>
+                        <td>62%, 60%, 51%</td>
+                        <td>75%, 69%, 58%</td>
+                        <td>79%, 70%, 61%</td>
+                        <td>81%, 73%, 65%</td>
+                    </tr>
+                    <tr>
+                        <td>KO</td>
+                        <td>62%, 54%, 53%</td>
+                        <td>71%, 64%, 56%</td>
+                        <td>76%, 67%, 63%</td>
+                        <td>79%, 69%, 67%</td>
+                    </tr>
+                    <tr>
+                        <td>JPM</td>
+                        <td>58%, 53%, 51%</td>
+                        <td>68%, 58%, 53%</td>
+                        <td>75%, 63%, 56%</td>
+                        <td>81%, 68%, 61%</td>
+                    </tr>
+                    <tr>
+                        <td>AMZN</td>
+                        <td>59%, 54%, 54%</td>
+                        <td>70%, 60%, 56%</td>
+                        <td>79%, 65%, 59%</td>
+                        <td>81%, 69%, 61%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>  
 {% endblock content %}
