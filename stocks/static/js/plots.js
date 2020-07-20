@@ -7,8 +7,8 @@ defaultOption.text = 'Choose Stock Ticker';
 dropdown.add(defaultOption);
 dropdown.selectedIndex = 0;
 
-// var stocks_url = 'https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/stocks'
-var stocks_url ='http://magic-stocks.herokuapp.com/api/v1/stocks'
+var stocks_url = 'https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/stocks'
+// var stocks_url ='http://magic-stocks.herokuapp.com/api/v1/stocks'
 
 fetch(stocks_url)
     .then(
@@ -67,11 +67,11 @@ d3.select("#updatePlot").on("click", updatePlotly);
 // d3.select("#predictPlot").on("click", runPrediction);
 
 function buildPlot(stock) {
-    // var url = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
-    var url = `http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
+    var url = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
+    // var url = `http://magic-stocks.herokuapp.com/api/v1/metrics/${stock}`;
 
-    // var imgurl = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/stocks/${stock}`;
-    var imgurl = `http://magic-stocks.herokuapp.com/api/v1/stocks/${stock}`;
+    var imgurl = `https://cors-anywhere.herokuapp.com/http://magic-stocks.herokuapp.com/api/v1/stocks/${stock}`;
+    // var imgurl = `http://magic-stocks.herokuapp.com/api/v1/stocks/${stock}`;
 
     d3.json(url).then(function(metric) {
 
@@ -288,11 +288,11 @@ function buildPlot(stock) {
         var chart = d3.select("#plot")
         chart.html("")
 
+        Plotly.newPlot("plot", data, layout);
+        
         d3.json(imgurl).then(function(data) {
             var stockName = d3.select("#stock")
             stockName.html(`<h5 class="text-center"><img src='/static/img/${data[0]['logo']}' height='75px' /> ${data[0]['name']}</h5>`)
         });
-
-        Plotly.newPlot("plot", data, layout);
     });
 }
